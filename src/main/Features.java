@@ -3,19 +3,25 @@ package main;
 import main.logichelpers.SqlHelper;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name = "Home",
+@WebServlet(name = "Features",
 urlPatterns = {"/save"})
-public class Home extends HttpServlet {
+@MultipartConfig
+public class Features extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("savebutton")!=null) {
             System.out.println("add new feature(1)");
@@ -25,7 +31,7 @@ public class Home extends HttpServlet {
             System.out.println("delete Feature");
             deleteFeature(request);
         }
-        request.getRequestDispatcher("/home.jsp").forward(request, response);
+        request.getRequestDispatcher("/features.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -33,6 +39,8 @@ public class Home extends HttpServlet {
         PrintWriter out = response.getWriter();
         out.println("<h1>" + "Get test" + "</h1>");
     }
+
+
 
     private void deleteFeature(HttpServletRequest request) {
         System.out.println("deleting features");

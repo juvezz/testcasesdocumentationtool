@@ -44,7 +44,7 @@
           %>
           <div class="page-content" id="savescenarios">
             <div class="container" id="savemainpart">
-              <a href="testcase.jsp?testcasename=<%=testCaseNames.get(i)%>&featureName=<%=featureName%>"><input type="text" class="form-control" id="savetestCaseName" name="savetestcasename" value="<%=testCaseNames.get(i)%>" readonly="true"></a>
+              <a href="testcasesteps.jsp?testcasename=<%=testCaseNames.get(i)%>&featureName=<%=featureName%>"><input type="text" class="form-control" id="savetestCaseName" name="savetestcasename" value="<%=testCaseNames.get(i)%>" readonly="true"></a>
               <div align="right">
                 <input type="submit" class="btn btn-danger" id="deleteTestScenario" name="deleteTestScenario=<%=testCaseNames.get(i)%>" value="Delete"/>
               </div>
@@ -67,6 +67,7 @@
           <button type="button" class="btn btn-success" id="addNewScenario" name="addnewscenario" onclick="addNewScenarioForm();">Add new scenario</button>
 
           <input type="submit" class="btn btn-success" id="saveButton" name="savebutton" onclick="saveButton()" value="Save"/>
+
 
         </div>
       </div>

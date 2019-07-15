@@ -13,9 +13,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet(name = "TestCase",
+@WebServlet(name = "TestCaseSteps",
 urlPatterns = {"/saveTestCaseSteps"})
-public class TestCase extends HttpServlet {
+public class TestCaseSteps extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("savebutton")!=null) {
             saveTestSteps(request);
@@ -24,7 +24,7 @@ public class TestCase extends HttpServlet {
             deleteTestSteps(request);
         }
 
-        request.getRequestDispatcher("/testcase.jsp?testcasename="+ request.getParameter("testcasename")+
+        request.getRequestDispatcher("/testcasesteps.jsp?testcasename="+ request.getParameter("testcasename")+
                 "&featureName=" + request.getParameter("featureName")).forward(request, response);
     }
 

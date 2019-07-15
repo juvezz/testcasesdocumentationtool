@@ -7,7 +7,7 @@ public class SqlHelper {
 
     private  final String url = "jdbc:postgresql://localhost/testcasesversion1";
     private final String user = "postgres";
-    private final String password = "******";
+    private final String password = "30081947mipt";
 
     public Connection connect() throws SQLException {
         System.out.println("connection start");
@@ -141,6 +141,7 @@ public class SqlHelper {
     }
 
     public void insertDataToTestStepsTable(Connection connection, String teststep, String testcase) throws SQLException {
+        createTestCaseStepsTable(connection);
         int id = getLastId(connection, "teststeps") + 1;
         System.out.println("inser new teststeps to table");
         PreparedStatement preparedStatement = connection.prepareStatement(

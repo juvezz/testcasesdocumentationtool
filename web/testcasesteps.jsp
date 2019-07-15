@@ -1,13 +1,8 @@
 <%@ page import="main.logichelpers.SqlHelper" %>
 <%@ page import="java.sql.Connection" %>
-<%@ page import="java.util.ArrayList" %><%--
-  Created by IntelliJ IDEA.
-  User: SPE02
-  Date: 2019-06-06
-  Time: 14:24
-  To change this template use File | Settings | File Templates.
---%>
+<%@ page import="java.util.ArrayList" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
 <html>
 <head>
     <title>Test case description</title>
@@ -36,11 +31,11 @@
             <div name="testStepContainer<%=i%>">
                 <div class="col-md-1">
                     <i class="fa fa-plus-square" style="font-size:24px" onclick="addElementAfterThisStep(<%=i%>);"></i>
-                    <i class="fa fa-minus-square" style="font-size:24px" onclick="deleteTestStepFunction(<%=i%>)"></i>
-                    <input type="submit" hidden="true" id="deleteTestStepInput<%=i%>" name="deleteTestStep" value="<%=testSteps.get(i)%>">
+<%--                    <i class="fa fa-minus-square" style="font-size:24px" onclick="deleteTestStepFunction(<%=i%>)"></i>--%>
+<%--                    <input type="button" hidden="true" id="deleteTestStepInput<%=i%>" name="deleteTestStep" value="<%=testSteps.get(i)%>">--%>
                 </div>
 
-                <input type="text" class="col-md-11" name="teststep" value="<%=testSteps.get(i)%>">
+                <input type="text" class="col-md-11" name="teststep" value="<%=testSteps.get(i)%>" id="testStepText" onkeyup="textChange()">
             </div>
         <%
             }
@@ -104,4 +99,24 @@
         var deleteButton = document.getElementById("deleteTestStepInput"+i);
         deleteButton.click();
     }
+
+    var textChange=function(){
+        var text=event.target.value;
+
+        if(text.indexOf("When")>-1){
+            text=text.replace("When", "<span class='yellow'>When</span>");
+        }
+
+        if(text.indexOf("Then")>-1){
+            text=text.replace("Then", "<span class='yellow'>Then</span>");
+        }
+
+        document.getElementById("testStepText").innerHTML=text;
+    }
 </script>
+
+<style>
+    .yellow{
+        color:yellow;
+    }
+</style>
