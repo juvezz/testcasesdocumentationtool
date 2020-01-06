@@ -7,15 +7,15 @@ public class SqlHelper {
 
     private  final String url = "jdbc:postgresql://localhost/testcasesversion1";
     private final String user = "postgres";
-    private final String password = "30081947mipt";
+    private final String password = "12345678";
 
     public Connection connect() throws SQLException {
         System.out.println("connection start");
         Connection conn = null;
 
         try {
-//            conn = DriverManager.getConnection(url, user, password);
-            conn = DriverManager.getConnection(url); // local running !
+            conn = DriverManager.getConnection(url, user, password);
+//            conn = DriverManager.getConnection(url); // local running !
             System.out.println("Connected to the PostgreSQL server successfully.");
 
         } catch (SQLException e) {
