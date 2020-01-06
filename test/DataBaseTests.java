@@ -1,5 +1,3 @@
-package test;
-
 import main.logichelpers.SqlHelper;
 import org.junit.Test;
 import org.postgresql.copy.CopyManager;
@@ -18,7 +16,7 @@ import java.util.Date;
 public class DataBaseTests {
 
     @Test
-    public void ExportFromDataBaseToCSV() throws SQLException, FileNotFoundException {
+    public void ExportFromDataBaseToCSV() throws SQLException, FileNotFoundException, ClassNotFoundException {
         SqlHelper sqlHelper = new SqlHelper();
         Connection connection = sqlHelper.connect();
         String pathName = "/Users/SPE02/myfile1"

@@ -1,5 +1,3 @@
-package test;
-
 import main.Features;
 import org.junit.Test;
 

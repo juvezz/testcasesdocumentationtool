@@ -16,7 +16,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 
 @WebServlet(name = "TestCasesList",
-            urlPatterns = {"/servlet"})
+            urlPatterns = {"/testcases"})
 public class TestCasesList extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         if (request.getParameter("savebutton")!= null) {
@@ -37,7 +37,21 @@ public class TestCasesList extends HttpServlet {
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        SqlHelper sqlHelper = new SqlHelper();
+        Connection connection = null;
+        try {
+            connection = sqlHelper.connect();
+            String featureName = request.getParameter("featurename");
+            if (featureName == null && sqlHelper.getFeatureNames(connection).size()!=0) {
+                featureName = sqlHelper.getFeatureNames(connection).get(0);
+            }
+            request.setAttribute("featureName", featureName);
+            ArrayList<String> testCaseNames = sqlHelper.getTestScenariosByFeatureName(connection, featureName);
+            request.setAttribute("testCaseNames", testCaseNames);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher("testcases/index.jsp").forward(request,response);
     }
 
     private void deleteTestScenarios(HttpServletRequest request) throws SQLException {
