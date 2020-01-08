@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   </head>
   <body>
-  <form action="servlet" method="post">
+  <form action="testcases" method="post">
     <jsp:include page="../components/menu.jsp"/>
     <input type="text" name="featurename" hidden="true" value="${featureName}">
     <h1 align="center">Test Cases</h1>

@@ -32,8 +32,18 @@ public class TestCasesList extends HttpServlet {
                 e.printStackTrace();
             }
         }
-
-        request.getRequestDispatcher("/index.jsp?featurename=" + request.getParameter("featurename")).forward(request, response);
+        SqlHelper sqlHelper = new SqlHelper();
+        Connection connection = null;
+        String featureName = request.getParameter("featurename");
+        request.setAttribute("featureName", featureName);
+        try {
+            connection = sqlHelper.connect();
+            ArrayList<String> testCaseNames = sqlHelper.getTestScenariosByFeatureName(connection, featureName);
+            request.setAttribute("testCaseNames", testCaseNames);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        request.getRequestDispatcher("testcases/index.jsp").forward(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
