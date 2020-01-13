@@ -1,8 +1,6 @@
 # testcasesdocumentationtool
 
 
-1. Install postgresql
-2. create DB "testcasesversion1" with user: "postgres" and password: "12345678"
-3. build .war artifact
-4. download tomcat and add .war file to tomcat/webapps folder
-5. open terminal, go to tomcat\bin, run: catalina.bat start
+1. clone project
+2. cd dockers
+3. docker-compose up -d
