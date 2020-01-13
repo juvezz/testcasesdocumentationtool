@@ -31,7 +31,7 @@
             System.out.println("feautres count: " + features.size());
             for (int i = 0; i < features.size(); i++) {
                 j =i;%>
-                <a class="col-md-11" href="testcases/index.jsp?featurename=<%=features.get(i)%>"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="<%=features.get(i)%>" readonly="true"></a>
+                <a class="col-md-11" href="index.jsp?featurename=<%=features.get(i)%>"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="<%=features.get(i)%>" readonly="true"></a>
                 <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=<%=features.get(i)%>" value="delete">
                 <%}
             %>
