@@ -1,5 +1,6 @@
 package main;
 
+import main.logichelpers.JenkinsHelper;
 import main.logichelpers.SqlHelper;
 
 import javax.servlet.ServletException;
@@ -17,20 +18,29 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 
 @WebServlet(name = "Features",
 urlPatterns = {"/save"})
 @MultipartConfig
 public class Features extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("savebutton")!=null) {
-            System.out.println("add new feature(1)");
-            addNewFeature(request);
+        Enumeration enumeration = request.getParameterNames();
+        while(enumeration.hasMoreElements()) {
+            String parameter = enumeration.nextElement().toString();
+            if (request.getParameter("savebutton")!=null) {
+                System.out.println("add new feature(1)");
+                addNewFeature(request);
+            } else if (parameter.contains("runFeature")) {
+                String featureName = "@cpfilters";
+                JenkinsHelper.runJobWithFeatureAttribute(featureName);
+            }
+            else if (parameter.contains("deleteFeature")){
+                System.out.println("delete Feature");
+                deleteFeature(request);
+            }
         }
-        else{
-            System.out.println("delete Feature");
-            deleteFeature(request);
-        }
+
         request.getRequestDispatcher("/features.jsp").forward(request, response);
     }
 
