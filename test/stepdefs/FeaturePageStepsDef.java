@@ -43,4 +43,14 @@ public class FeaturePageStepsDef {
     public void closeAlertWindow() {
         featurePageLogic.closeAlertWindow();
     }
+
+    @And("^delete added feature$")
+    public void deleteAddedFeature() {
+        featurePageLogic.deleteAddedFeature();
+    }
+
+    @And("^check new amount of features$")
+    public void checkNewAmountOfFeatures() {
+        featurePageLogic.checkNewAmountOfFeatures();
+    }
 }

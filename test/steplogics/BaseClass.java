@@ -16,7 +16,7 @@ public class BaseClass {
     }
 
     public void beforeTestSteps() {
-        System.setProperty("webdriver.chrome.driver", "src/test/resources/chromedriverlocalmac");
+        System.setProperty("webdriver.chrome.driver", "test/resources/chromedriverlocalmac");
         ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.addArguments("--headless");
         chromeOptions.addArguments("--no-sandbox");
