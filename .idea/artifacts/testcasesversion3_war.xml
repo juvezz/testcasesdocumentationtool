@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="war" name="testcasesversion3:war">
-    <output-path>$PROJECT_DIR$/out/artifacts/testcasesversion3_war</output-path>
+    <output-path>$PROJECT_DIR$/dockers/web</output-path>
     <root id="archive" name="testcasesversion3_war.war">
       <element id="artifact" artifact-name="testcasesversion3:war exploded" />
     </root>

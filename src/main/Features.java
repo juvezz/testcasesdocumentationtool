@@ -1,5 +1,7 @@
 package main;
 
+import main.logichelpers.FeaturesToAttributesMapping;
+import main.logichelpers.JenkinsHelper;
 import main.logichelpers.SqlHelper;
 
 import javax.servlet.ServletException;
@@ -17,47 +19,57 @@ import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "Features",
-urlPatterns = {"/save"})
+urlPatterns = {"/features"})
 @MultipartConfig
 public class Features extends HttpServlet {
+
+    private Connection connection;
+
+    private SqlHelper sqlHelper = new SqlHelper();
+
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        if (request.getParameter("savebutton")!=null) {
-            System.out.println("add new feature(1)");
-            addNewFeature(request);
+        Enumeration enumeration = request.getParameterNames();
+        while(enumeration.hasMoreElements()) {
+            String parameter = enumeration.nextElement().toString();
+            if (request.getParameter("savebutton")!=null) {
+                addNewFeature(request);
+            } else if (parameter.contains("runFeature")) {
+                String featureName = parameter.replace("runFeature=", "");
+                FeaturesToAttributesMapping featuresToAttributesMapping = new FeaturesToAttributesMapping();
+                String attribute = featuresToAttributesMapping.featuresToAttributeMap.get(featureName);
+                JenkinsHelper.runJobWithFeatureAttribute(attribute);
+            }
+            else if (parameter.contains("deleteFeature")){
+                deleteFeature(request);
+            }
         }
-        else{
-            System.out.println("delete Feature");
-            deleteFeature(request);
-        }
-        request.getRequestDispatcher("/features.jsp").forward(request, response);
+
+        doGet(request, response);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<h1>" + "Get test" + "</h1>");
+        ArrayList<String> existFeatures = getExistFeatures();
+        Map<String, String> featuresToAttributeMap = new FeaturesToAttributesMapping().featuresToAttributeMap;
+        ArrayList<String> implementedAutomatedTestForFeatures = (ArrayList<String>) existFeatures.stream().
+                filter(featuresToAttributeMap::containsKey).collect(Collectors.toList());
+        request.setAttribute("features", implementedAutomatedTestForFeatures);
+        existFeatures.removeAll(implementedAutomatedTestForFeatures);
+        ArrayList<String> notImplemented = existFeatures;
+        request.setAttribute("notImplemented", notImplemented);
+        request.getRequestDispatcher("/features.jsp").forward(request, response);
     }
 
 
 
     private void deleteFeature(HttpServletRequest request) {
-        System.out.println("deleting features");
-        SqlHelper sqlHelper = new SqlHelper();
-        Connection connection = null;
-        ArrayList<String> existFeatures = new ArrayList<String>();
-        try {
-            connection = sqlHelper.connect();
-            existFeatures = sqlHelper.getFeatureNames(connection);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        System.out.println("existFeature: " + existFeatures.size());
+        ArrayList<String> existFeatures = getExistFeatures();
         for (int i = 0; i < existFeatures.size(); i++) {
-            System.out.println(i);
             if (request.getParameter("deleteFeature=" + existFeatures.get(i)) != null) {
-                System.out.println("deletingFeature: " + existFeatures.get(i));
                 try {
                     sqlHelper.deleteFeatureInFeatureTable(connection, existFeatures.get(i));
                 } catch (SQLException e) {
@@ -68,22 +80,22 @@ public class Features extends HttpServlet {
 
     }
 
-    private void addNewFeature(HttpServletRequest request) {
-        System.out.println("add new feature...");
-        String[] featureNames = request.getParameterValues("newtestfeaturename");
-        System.out.println(featureNames.length);
-        SqlHelper sqlHelper = new SqlHelper();
-        Connection connection = null;
-        ArrayList<String> existFeatures = new ArrayList<String>();
+    private ArrayList<String> getExistFeatures() {
+        ArrayList<String> existFeatures = new ArrayList<>();
         try {
             connection = sqlHelper.connect();
             existFeatures = sqlHelper.getFeatureNames(connection);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        return existFeatures;
+    }
+
+    private void addNewFeature(HttpServletRequest request) {
+        String[] featureNames = request.getParameterValues("newtestfeaturename");
+        ArrayList<String> existFeatures = getExistFeatures();
         for (int i = 0; i < featureNames.length; i++) {
             try {
-                System.out.println("featureName: " + featureNames[0]);
                 if(!existFeatures.contains(featureNames[i]) && !featureNames[i].isEmpty()) {
                     sqlHelper.insertDataToFeaturesTable(connection, featureNames[i]);
                 }

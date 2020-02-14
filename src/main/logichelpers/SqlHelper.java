@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class SqlHelper {
 
-    private  final String url = "jdbc:postgresql://app-db:5432/testcases";
+    private  final String url = "jdbc:postgresql://localhost:5432/testcasesversion1";
     private final String user = "postgres";
     private final String password = "12345678";
 

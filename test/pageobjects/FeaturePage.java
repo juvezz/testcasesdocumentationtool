@@ -7,4 +7,5 @@ public class FeaturePage {
     public static By textFieldForFeatureName = By.xpath("//input[@name='newtestfeaturename']");
     public static By saveButton = By.id("saveButton");
     public static By feature = By.id("testFeatureName");
+    public static By deleteFeatureButton = By.xpath("//input[@value='delete']");
 }

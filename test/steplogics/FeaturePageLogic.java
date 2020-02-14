@@ -6,13 +6,17 @@ import org.openqa.selenium.WebElement;
 import pageobjects.FeaturePage;
 import pageobjects.StartPage;
 
+import java.util.List;
+import java.util.Random;
+
 public class FeaturePageLogic {
 
     WebDriver driver = BaseClass.getDriver();
     private int oldFeatureAmount;
+    private String featureName;
 
     public void openStartPageOfTestCasesTool() {
-        driver.get("http://localhost:8080/testcasesversion3_war/");
+        driver.get("http://3.16.129.138:8081/testcasesversion3_war/");
     }
 
     public void clickFeaturesLink() {
@@ -28,7 +32,9 @@ public class FeaturePageLogic {
 
     public void writeNewNameForFeatureFile() {
         WebElement textFieldForFeatureName = driver.findElement(FeaturePage.textFieldForFeatureName);
-        textFieldForFeatureName.sendKeys("testName");
+        int featureNameNumber = new Random().nextInt(100000);
+        this.featureName = "testName" + featureNameNumber;
+        textFieldForFeatureName.sendKeys(this.featureName);
     }
 
     public void clickSaveButton() {
@@ -42,6 +48,19 @@ public class FeaturePageLogic {
     }
 
     public void closeAlertWindow() {
-        
+        driver.switchTo().alert().accept();
+    }
+
+    public void deleteAddedFeature() {
+        List<WebElement> deleteFeatureButtons = driver.findElements(FeaturePage.deleteFeatureButton);
+        WebElement deleteFeatureButton = deleteFeatureButtons.stream().
+                filter(button->button.getAttribute("Name").contains(featureName)).
+                findFirst().get();
+        deleteFeatureButton.click();
+    }
+
+    public void checkNewAmountOfFeatures() {
+        int newAmountOfFeatures = driver.findElements(FeaturePage.feature).size();
+        Assert.assertEquals(oldFeatureAmount, newAmountOfFeatures);
     }
 }

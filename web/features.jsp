@@ -1,7 +1,4 @@
-<%@ page import="main.logichelpers.SqlHelper" %>
-<%@ page import="java.sql.Connection" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="java.sql.SQLException" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -10,31 +7,23 @@
 </head>
 <body>
     <jsp:include page="components/menu.jsp"/>
-    <form action="save" method="post">
+    <form action="features" method="post">
         <div class="container" id="allcontent">
             <div id="featureslist">
-            <%
-            SqlHelper sqlHelper = new SqlHelper();
-            Connection connection = sqlHelper.connect();
-            try {
-                sqlHelper.createFeaturesTable(connection);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            ArrayList<String> features = null;
-            try {
-                features = sqlHelper.getFeatureNames(connection);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-            int j = 0;
-            System.out.println("feautres count: " + features.size());
-            for (int i = 0; i < features.size(); i++) {
-                j =i;%>
-                <a class="col-md-11" href="index.jsp?featurename=<%=features.get(i)%>"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="<%=features.get(i)%>" readonly="true"></a>
-                <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=<%=features.get(i)%>" value="delete">
-                <%}
-            %>
+                <div>
+                    <c:forEach var="feature" items="${features}">
+                        <a class="col-md-10" href="index.jsp?featurename=${feature}"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="${feature}" readonly="true"></a>
+                        <input type="submit" class="btn btn-success col-md-1" name="runFeature=${feature}" value="Run" onclick="runFeature()">
+                        <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=${feature}" value="delete">
+                    </c:forEach>
+                </div>
+                <div>
+                    <c:forEach var="feature" items="${notImplemented}">
+                        <a class="col-md-10" href="index.jsp?featurename=${feature}"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="${feature}" readonly="true"></a>
+                        <div class="col-md-1"></div>
+                        <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=${feature}" value="delete">
+                    </c:forEach>
+                </div>
             </div>
             <div align="center">
                 <button type="button" class="btn btn-success" id="addNewFeature" name="addnewfeature" onclick="addNewFeatureFile();">Add new feature</button>
@@ -46,6 +35,11 @@
 </html>
 
 <script>
+
+    function runFeature() {
+        window.alert("Jenkins job for this featute was executed: https://jenkins.kartenmacherei.de/job/runfromtestdocumentationtool/")
+    }
+
     function addNewFeatureFile() {
         var input = document.createElement("input");
         input.type = "text";
