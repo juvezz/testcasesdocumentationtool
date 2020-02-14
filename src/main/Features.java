@@ -20,6 +20,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @WebServlet(name = "Features",
 urlPatterns = {"/features"})
@@ -52,7 +54,13 @@ public class Features extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         ArrayList<String> existFeatures = getExistFeatures();
-        request.setAttribute("features", existFeatures);
+        Map<String, String> featuresToAttributeMap = new FeaturesToAttributesMapping().featuresToAttributeMap;
+        ArrayList<String> implementedAutomatedTestForFeatures = (ArrayList<String>) existFeatures.stream().
+                filter(featuresToAttributeMap::containsKey).collect(Collectors.toList());
+        request.setAttribute("features", implementedAutomatedTestForFeatures);
+        existFeatures.removeAll(implementedAutomatedTestForFeatures);
+        ArrayList<String> notImplemented = existFeatures;
+        request.setAttribute("notImplemented", notImplemented);
         request.getRequestDispatcher("/features.jsp").forward(request, response);
     }
 

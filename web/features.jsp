@@ -10,11 +10,20 @@
     <form action="features" method="post">
         <div class="container" id="allcontent">
             <div id="featureslist">
-            <c:forEach var="feature" items="${features}">
-                <a class="col-md-10" href="index.jsp?featurename=${feature}"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="${feature}" readonly="true"></a>
-                <input type="submit" class="btn btn-success col-md-1" name="runFeature=${feature}" value="Run" onclick="runFeature()">
-                <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=${feature}" value="delete">
-            </c:forEach>
+                <div>
+                    <c:forEach var="feature" items="${features}">
+                        <a class="col-md-10" href="index.jsp?featurename=${feature}"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="${feature}" readonly="true"></a>
+                        <input type="submit" class="btn btn-success col-md-1" name="runFeature=${feature}" value="Run" onclick="runFeature()">
+                        <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=${feature}" value="delete">
+                    </c:forEach>
+                </div>
+                <div>
+                    <c:forEach var="feature" items="${notImplemented}">
+                        <a class="col-md-10" href="index.jsp?featurename=${feature}"><input type="text" class="form-control transparent-input" id="testFeatureName" name="testfeaturename" value="${feature}" readonly="true"></a>
+                        <div class="col-md-1"></div>
+                        <input type="submit" class="btn btn-danger col-md-1" name="deleteFeature=${feature}" value="delete">
+                    </c:forEach>
+                </div>
             </div>
             <div align="center">
                 <button type="button" class="btn btn-success" id="addNewFeature" name="addnewfeature" onclick="addNewFeatureFile();">Add new feature</button>

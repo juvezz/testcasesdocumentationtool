@@ -18,7 +18,7 @@
     <div class="container-fluid">
         <div class="navbar-header">
             <a class="navbar-brand" href="index.jsp">Test Cases</a>
-            <a class="navbar-brand" href="features.jsp">Features</a>
+            <a class="navbar-brand" href="features">Features</a>
             <a class="navbar-brand" href="uploadfile.jsp">Upload File</a>
         </div>
     </div>
