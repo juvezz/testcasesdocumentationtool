@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class SqlHelper {
 
-    private  final String url = "jdbc:postgresql://localhost:5432/testcasesversion1";
+    private  final String url = "jdbc:postgresql://app-db:5432/testcases";
     private final String user = "postgres";
     private final String password = "12345678";
 
@@ -52,9 +52,13 @@ public class SqlHelper {
     }
 
     private int getLastId(Connection connection, String tableName) throws SQLException {
+        if (connection==null) connection = new SqlHelper().connect();
         Statement statement = connection.createStatement();
         ResultSet result = statement.executeQuery("SELECT id FROM " + tableName);
         int lastId = 0;
+        if(result==null) {
+            return 1;
+        }
         while (result.next()) {
             int id = Integer.parseInt(result.getString("id"));
             if (id > lastId) lastId = id;
