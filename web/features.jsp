@@ -37,7 +37,10 @@
 <script>
 
     function runFeature() {
-        window.alert("Jenkins job for this featute was executed: https://jenkins.kartenmacherei.de/job/runfromtestdocumentationtool/")
+        if(window.confirm("It's redirection to Jenkins with result"))
+        {
+            window.open("https://jenkins.kartenmacherei.de/job/runfromtestdocumentationtool/");
+        };
     }
 
     function addNewFeatureFile() {

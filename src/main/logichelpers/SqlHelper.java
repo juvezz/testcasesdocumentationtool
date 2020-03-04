@@ -5,11 +5,14 @@ import java.util.ArrayList;
 
 public class SqlHelper {
 
-    private  final String url = "jdbc:postgresql://app-db:5432/testcases";
+    private String url = "jdbc:postgresql://app-db:5432/testcases";
     private final String user = "postgres";
     private final String password = "12345678";
 
     public Connection connect() throws SQLException {
+        if (System.getProperty("os.name").contains("Mac")) {
+            url = "jdbc:postgresql://localhost:5432/testcasesversion1";
+        }
         System.out.println("connection start");
         Connection conn = null;
 
